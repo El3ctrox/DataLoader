@@ -1,0 +1,19 @@
+{
+  "name": "DataLoader",
+  "tree": {
+    "$className": "DataModel",
+    
+    "ReplicatedStorage": {
+      "Packages": {
+        "$path": "Packages",
+        "$ignoreUnknownInstances": true,
+        
+        "_Index": {
+          "$className": "Folder",
+          "$ignoreUnknownInstances": true
+        },
+        "DataLoader": { "$path": "src" }
+      }
+    }
+  }
+}
