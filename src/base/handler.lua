@@ -4,17 +4,20 @@ return function(loader)
     local meta = { __metatable = "locked"}
     local self = setmetatable({ type = "attributeHandler", kind = loader.kind }, meta)
     local value: any
-    local data: any
     
     --// Methods
-    function self:load(_data)
+    function self:load(data)
         
-        data = _data
-        loader:load(data)
+        value = loader:load(data)
+        self:set(value)
         
-        self:apply(value)
-        return self
+        return value
     end
+    function self:save()
+        
+        return loader:serialize(value)
+    end
+    
     function self:set(newValue, parent, name)
         
         if parent and name then
@@ -23,7 +26,6 @@ return function(loader)
         end
         
         value = newValue
-        return self
     end
     
     --// End

@@ -1,10 +1,9 @@
 --// Packages
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local DataLoader = require(ReplicatedStorage.Packages.DataLoader)
-type DataLoader<loaded, serialized> = DataLoader.DataLoader<loaded, serialized>
-
 local structLoader = require(ReplicatedStorage.Packages.DataLoader.struct)
 local arrayLoader = require(ReplicatedStorage.Packages.DataLoader.array)
+local baseLoader = require(ReplicatedStorage.Packages.DataLoader.base)
+type DataLoader<loaded, serialized> = baseLoader.DataLoader<loaded, serialized>
 
 --// Types
 export type map<key, value> = { [key]: value }
@@ -17,8 +16,8 @@ return function<loadedKey, loadedValue, serializedKey, serializedValue>(
     keyLoader: DataLoader<loadedKey, serializedKey>,
     valueLoader: DataLoader<loadedValue, serializedValue>
 )
-    keyLoader = keyLoader or DataLoader.new()
-    valueLoader = valueLoader or DataLoader.new()
+    keyLoader = keyLoader or baseLoader()
+    valueLoader = valueLoader or baseLoader()
     
     local pair = structLoader{ key = keyLoader, value = valueLoader} :: DataLoader<{ key: loadedKey, value: loadedValue }, serializedPair<serializedKey, serializedValue>>
     local self = arrayLoader(pair) :: DataLoader<map<loadedKey, loadedValue>, serializedMap<serializedKey, serializedValue>>

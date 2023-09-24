@@ -1,7 +1,7 @@
 --// Packages
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local DataLoader = require(ReplicatedStorage.Packages.DataLoader)
-type DataLoader<loaded, serialized> = DataLoader.DataLoader<loaded, serialized>
+local baseLoader = require(ReplicatedStorage.Packages.DataLoader.base)
+type DataLoader<loaded, serialized> = baseLoader.DataLoader<loaded, serialized>
 
 local handler = require(script.handler)
 
@@ -14,7 +14,7 @@ return function<loadedValue, serializedValue>(
     minLength: number?, maxLength: number?
 ): DataLoader<loadedSet<loadedValue>, serializedSet<serializedValue>>
     
-    local self = DataLoader.new({})
+    local self = baseLoader({})
     self.kind = "set"
     
     self.value = valueLoader

@@ -2,13 +2,14 @@
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local wrapper = require(ReplicatedStorage.Packages.Wrapper)
 
-local DataLoader = require(ReplicatedStorage.Packages.DataLoader)
-type DataLoader<loaded> = DataLoader.DataLoader<loaded, any>
+local baseLoader = require(ReplicatedStorage.Packages.DataLoader.base)
+type DataHandler<loaded, serialized> = baseLoader.DataHandler<loaded, serialized>
+type DataLoader<loaded, serialized> = baseLoader.DataLoader<loaded, serialized>
 
 --// Module
-return function<element>(container: Instance, loader: DataLoader<{element}>)
+return function<element, serializedArray>(container: Instance, loader: DataLoader<{element}, serializedArray>): DataHandler<{element}, serializedArray>
     
-    local elementLoader = loader.element
+    local elementLoader = loader.element :: DataLoader<element, any>
     local sorter = loader.sorter
     local serializedOutput = {}
     local values = {}

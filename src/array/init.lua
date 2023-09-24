@@ -1,7 +1,7 @@
 --// Packages
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local DataLoader = require(ReplicatedStorage.Packages.DataLoader)
-type DataLoader<loaded, serialized> = DataLoader.DataLoader<loaded, serialized>
+local baseLoader = require(ReplicatedStorage.Packages.DataLoader.base)
+type DataLoader<loaded, serialized> = baseLoader.DataLoader<loaded, serialized>
 
 local handler = require(script.handler)
 
@@ -14,9 +14,9 @@ return function<loadedElement, serializedElement>(
     elementLoader: DataLoader<loadedElement, serializedElement>?,
     minLength: number?, maxLength: number?
 )
-    elementLoader = elementLoader or DataLoader.new()
+    elementLoader = elementLoader or baseLoader.new()
     
-    local self = DataLoader.new({}) :: DataLoader<array<loadedElement>, serializedArray<serializedElement>>
+    local self = baseLoader.new({}) :: DataLoader<array<loadedElement>, serializedArray<serializedElement>>
     self.kind = "array"
     
     type sorter = (loadedElement, loadedElement) -> boolean

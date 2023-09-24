@@ -1,7 +1,7 @@
 --// Packages
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local DataLoader = require(ReplicatedStorage.Packages.DataLoader)
-type DataLoader<loaded, serialized> = DataLoader.DataLoader<loaded, serialized>
+local baseLoader = require(ReplicatedStorage.Packages.DataLoader.base)
+type DataLoader<loaded, serialized> = baseLoader.DataLoader<loaded, serialized>
 
 local xtypeof = require(script.Parent.utils).xtypeof
 local handler = require(script.handler)
@@ -12,7 +12,7 @@ return function<loaded>(_loaders: loaded & { [string]: any })
     local loaders = {} :: { [string]: DataLoader<any, any> }
     local defaultData: loaded = {}
     
-    local self: DataLoader<loaded, { [string]: any }>, meta = DataLoader.new(defaultData)
+    local self: DataLoader<loaded, { [string]: any }>, meta = baseLoader(defaultData)
     self.kind = "struct"
     self.loaders = loaders
     
@@ -98,7 +98,7 @@ return function<loaded>(_loaders: loaded & { [string]: any })
             return loader
         else
             
-            local loader = DataLoader.any(value)
+            local loader = baseLoader(value)
             rawset(self, index, loader)
             
             defaultData[index] = value
