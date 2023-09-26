@@ -11,7 +11,6 @@ return function<element, serializedArray>(container: Instance, loader: DataLoade
     
     local elementLoader = loader.element :: DataLoader<element, any>
     local sorter = loader.sorter
-    local serializedOutput = {}
     local values = {}
     
     local self = wrapper(container)
@@ -19,11 +18,8 @@ return function<element, serializedArray>(container: Instance, loader: DataLoade
     --// Base Methods
     function self:load(serialized)
         
-        local newValues = loader:load(serialized)
-        self:set(newValues)
-        
-        serializedOutput = serialized
-        return serializedOutput
+        self:set(loader:load(serialized))
+        return values
     end
     function self:set(newValues: {element}, parent: Instance?, name: string?)
         
@@ -32,6 +28,7 @@ return function<element, serializedArray>(container: Instance, loader: DataLoade
         
         self:clear()
         self:add(unpack(newValues))
+        self:changed(newValues)
     end
     
     --// Methods
