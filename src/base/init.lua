@@ -32,6 +32,7 @@ return function<loaded, serialized>(defaultData: serialized?): DataLoader<loaded
     local self = setmetatable({ type = "DataLoader", kind = "abstract" }, meta)
     
     self.defaultData = defaultData
+    self.rootContainer = nil :: Instance?
     self.isOptional = false -- unused here, only in builtin struct loader
     self.canCorrect = false
     self.canPanic = false
@@ -124,7 +125,13 @@ return function<loaded, serialized>(defaultData: serialized?): DataLoader<loaded
     
     function self:wrapHandler(container: Instance?): DataHandler<loaded, serialized>
         
-        return wrapHandler(self)
+        if container then container.Parent = self.rootContainer end
+        return wrapHandler(self, container)
+    end
+    function self:setRootContainer(rootContainer: Instance)
+        
+        self.rootContainer = rootContainer
+        return self
     end
     
     --// Meta
