@@ -9,19 +9,16 @@ type DataLoader<loaded, serialized> = baseLoader.DataLoader<loaded, serialized>
 --// Module
 return function<element, serializedArray>(loader: DataLoader<{element}, serializedArray>, container: Instance): DataHandler<{element}, serializedArray>
     
+    local self = wrapper(container)
     local elementLoader = loader.element
     local handlers = {}
     local values = {}
     
-    local self = wrapper(container)
-    
     --// Base Methods
     function self:load(serialized)
         
-        local newValues = loader:load(serialized)
-        self:set(newValues)
-        
-        return newValues
+        self:set(loader:load(serialized))
+        return values
     end
     function self:save()
         
@@ -38,6 +35,9 @@ return function<element, serializedArray>(loader: DataLoader<{element}, serializ
         
         self:clear()
         self:add(unpack(newValues))
+        self:changed(newSet)
+    end
+    function self:changed(newSet: { [element]: true })
     end
     
     --// Methods
@@ -45,7 +45,7 @@ return function<element, serializedArray>(loader: DataLoader<{element}, serializ
         
         if values[value] then return end
         
-        local handler = elementLoader:handle()
+        local handler = elementLoader:wrapHandler()
         self:_host(handler)
         
         values[value] = true
@@ -60,9 +60,7 @@ return function<element, serializedArray>(loader: DataLoader<{element}, serializ
         local handler = handlers[value]
         if not handler then return end
         
-        values[value] = nil
-        handler:Destroy()
-        
+        handler.Parent = nil
         return value
     end
     
