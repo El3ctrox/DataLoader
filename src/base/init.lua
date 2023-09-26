@@ -1,14 +1,8 @@
 --// Packages
 local wrapHandler = require(script.handler)
+export type DataHandler<loaded, serialized> = wrapHandler.DataHandler<loaded, serialized>
 
 --// Types
-type table = { [any]: any }
-
-export type DataHandler<loaded, serialized> = {
-    set:    (DataHandler<loaded, serialized>, value: loaded) -> (),
-    load:   (DataHandler<loaded, serialized>, data: serialized) -> loaded,
-    save:   (DataHandler<loaded, serialized>) -> serialized,
-}
 export type DataLoader<loaded, serialized> = {
     setDefaultData: (self: DataLoader<loaded, serialized>, defaultData: serialized | (DataLoader<loaded, serialized>) -> serialized) -> DataLoader<loaded, serialized>,
     getDefaultData: (self: DataLoader<loaded, serialized>) -> serialized,
@@ -26,6 +20,7 @@ export type DataLoader<loaded, serialized> = {
     wrapHandler:    (self: DataLoader<loaded, serialized>, container: Instance?) -> DataHandler<loaded, serialized>,
 }
 
+--// Module
 return function<loaded, serialized>(defaultData: serialized?): DataLoader<loaded, serialized>
     
     local meta = { __metatable = "locked" }
