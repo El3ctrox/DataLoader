@@ -19,9 +19,7 @@ return function<value>(loader, container: Instance|ValueContainer<value>?): Data
     --// Methods
     function self:load(data)
         
-        value = loader:load(data)
-        self:set(value)
-        
+        self:set(loader:load(data))
         return value
     end
     function self:save()
@@ -31,12 +29,35 @@ return function<value>(loader, container: Instance|ValueContainer<value>?): Data
     
     function self:set(newValue, parent, name)
         
+        if parent then container.Parent = parent end
+        if name then container.Name = name end
+        
         if parent and name then
             
             parent:SetAttribute(name, newValue)
+            parent:GetAttributeChangedSignal(name):Connect(function()
+                
+                value = parent:GetAttribute(name)
+                self:changed(value)
+            end)
         end
         
         value = newValue
+        self:changed(newValue)
+    end
+    function self:changed(newValue)
+    end
+    
+    --// Listeners
+    if container and container:IsA("ValueBase") then
+        
+        container:GetPropertyChangedSignal("Value"):Connect(function()
+            
+            value = container.Value
+            self:changed(value)
+        end)
+        
+        value = container.Value
     end
     
     --// End
