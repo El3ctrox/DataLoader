@@ -9,11 +9,11 @@ local primitives = {}
 --// Functions
 function primitives.any(default: any)
     
-    return baseLoader.new(default) :: baseLoader<any>
+    return baseLoader(default) :: baseLoader<any>
 end
 function primitives.string(default: string?, minLength: number?, maxLength: number?)
     
-    local self = baseLoader.new(default) :: baseLoader<string>
+    local self = baseLoader(default) :: baseLoader<string>
     self.kind = "string"
     
     self.min = minLength
@@ -37,7 +37,7 @@ function primitives.string(default: string?, minLength: number?, maxLength: numb
 end
 function primitives.integer(default: number?, min: number?, max: number?)
     
-    local self = baseLoader.number(
+    local self = primitives.number(
         default and math.floor(default),
         min and math.floor(min),
         max and math.floor(max)
@@ -66,7 +66,7 @@ function primitives.integer(default: number?, min: number?, max: number?)
 end
 function primitives.number(default: number?, min: number?, max: number?)
     
-    local self = baseLoader.new(default) :: baseLoader<number>
+    local self = baseLoader(default) :: baseLoader<number>
     self.kind = "number"
     self.min = min
     self.max = max
@@ -91,7 +91,7 @@ function primitives.number(default: number?, min: number?, max: number?)
 end
 function primitives.boolean(default: boolean?)
     
-    local self = baseLoader.new(default) :: baseLoader<boolean>
+    local self = baseLoader(default) :: baseLoader<boolean>
     self.kind = "boolean"
     
     --// Methods
