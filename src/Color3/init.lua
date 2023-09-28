@@ -27,6 +27,12 @@ return function(default: Color3?): DataLoader<Color3, { R: number, G: number, B:
         return { R = color.R, G = color.G, B = color.B }
     end
     
+    local super = self.wrapHandler
+    function self:wrapHandler(container: Color3Value?)
+        
+        return super(container or Instance.new("Color3Value"))
+    end
+    
     --// End
     if default then self:setDefaultData{ R = math.floor(default.R*255), G = math.floor(default.G*255), B = math.floor(default.B*255) } end
     return self

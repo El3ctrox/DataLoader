@@ -32,6 +32,12 @@ function primitives.string(default: string?, minLength: number?, maxLength: numb
         return tostring(data)
     end
     
+    local super = self.wrapHandler
+    function self:wrapHandler(container)
+        
+        return super(container or Instance.new("StringValue"))
+    end
+    
     --// End
     return self
 end
@@ -61,6 +67,12 @@ function primitives.integer(default: number?, min: number?, max: number?)
         return math.floor(data)
     end
     
+    local super = self.wrapHandler
+    function self:wrapHandler(container)
+        
+        return super(container or Instance.new("IntValue"))
+    end
+    
     --// End
     return self
 end
@@ -86,6 +98,12 @@ function primitives.number(default: number?, min: number?, max: number?)
         return math.clamp(data, min or -math.huge, max or math.huge)
     end
     
+    local super = self.wrapHandler
+    function self:wrapHandler(container)
+        
+        return super(container or Instance.new("NumberValue"))
+    end
+    
     --// End
     return self
 end
@@ -102,6 +120,12 @@ function primitives.boolean(default: boolean?)
     function self:correct(data)
         
         return if data then true else false
+    end
+    
+    local super = self.wrapHandler
+    function self:wrapHandler(container)
+        
+        return super(container or Instance.new("BoolValue"))
     end
     
     --// End

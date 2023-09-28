@@ -79,9 +79,10 @@ return function<loaded>(_loaders: loaded & { [string]: any })
         return data
     end
     
-    function self:_handle(container)
+    function self:wrapHandler(container)
         
-        return handler(self, container or Instance.new("Folder"))
+        if container then container.Parent = self.rootContainer end
+        return handler(self, container or Instance.new("Folder", self.rootContainer))
     end
     
     --// Methods
@@ -111,7 +112,7 @@ return function<loaded>(_loaders: loaded & { [string]: any })
     --// Behaviour
     function meta:__newindex(index, value)
         
-        if index == "defaultData" then return rawset(self, "defaultData", value) end
+        if index == "defaultData" or index == "rootContainer" then return rawset(self, index, value) end
         self:insert(index, value)
     end
     
