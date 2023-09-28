@@ -10,16 +10,22 @@ local handler = require(script.handler)
 return function<loaded>(_loaders: loaded & { [string]: any })
     
     local loaders = {} :: { [string]: DataLoader<any, any> }
-    local defaultData: loaded = {}
     
-    local self: DataLoader<loaded, { [string]: any }>, meta = baseLoader(defaultData)
+    local self: DataLoader<loaded, { [string]: any }>, meta = baseLoader()
     self.kind = "struct"
     self.loaders = loaders
     
     --// Override Methods
     function self:getDefaultData()
         
-        return table.clone(self.defaultData)
+        local defaultData = {}
+        
+        for index, loader in loaders do
+            
+            defaultData[index] = loader:getDefaultData()
+        end
+        
+        return defaultData
     end
     
     function self:check(data)
@@ -89,25 +95,11 @@ return function<loaded>(_loaders: loaded & { [string]: any })
     --// Methods
     function self:insert(index, value)
         
-        if xtypeof(value) == "DataLoader" then
-            
-            local loader = value
-            rawset(self, index, loader)
-            
-            defaultData[index] = loader.defaultData
-            loaders[index] = loader
-            
-            return loader
-        else
-            
-            local loader = baseLoader(value)
-            rawset(self, index, loader)
-            
-            defaultData[index] = value
-            loaders[index] = loader
-            
-            return loader
-        end
+        local loader = if xtypeof(value) == "DataLoader" then value else baseLoader(value)
+        rawset(self, index, loader)
+        
+        loaders[index] = loader
+        return loader
     end
     
     --// Behaviour
