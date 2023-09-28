@@ -42,9 +42,10 @@ return function<loaded>(_loaders: loaded & { [string]: any })
             
             if loader:tryCheck(data[index]) then continue end
             
+            if not loader.canCorrect then return end
             local correction = loader:correct(data[index]) or loader:getDefaultData()
-            if not correction then return end
             
+            if correction == nil then return end
             corrections[index] = correction
         end
         

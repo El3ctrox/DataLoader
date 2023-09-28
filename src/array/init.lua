@@ -53,19 +53,22 @@ return function<loadedElement, serializedElement>(
     function self:correct(data)
         
         if typeof(data) ~= "table" then return end
+        if not elementLoader.canCorrect then return end
+        
+        local corrections = {}  -- logs corrections here instead apply changes without know if was possible correct all fields
         
         for index, value in ipairs(data) do
             
-            if elementLoader:tryCheck(value) then return end
+            corrections[index] = value
+            if elementLoader:tryCheck(value) then continue end
             
             local correction = elementLoader:correct(value)
-            if correction then
-                
-                data[index] = correction
-            else
-                
-                table.remove(data, index)
-            end
+            corrections[index] = correction
+        end
+        
+        for index in data do
+            
+            data[index] = corrections[index]
         end
         
         return data
