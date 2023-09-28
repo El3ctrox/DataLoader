@@ -120,13 +120,7 @@ return function<loaded, serialized>(defaultData: serialized?): DataLoader<loaded
     
     function self:wrapHandler(container: Instance?): DataHandler<loaded, serialized>
         
-        if container then container.Parent = self.rootContainer end
         return wrapHandler(self, container)
-    end
-    function self:setRootContainer(rootContainer: Instance)
-        
-        self.rootContainer = rootContainer
-        return self
     end
     
     --// Meta

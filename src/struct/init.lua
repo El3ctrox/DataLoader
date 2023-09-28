@@ -88,8 +88,7 @@ return function<loaded>(_loaders: loaded & { [string]: any })
     
     function self:wrapHandler(container)
         
-        if container then container.Parent = self.rootContainer end
-        return handler(self, container or Instance.new("Folder", self.rootContainer))
+        return handler(self, container or Instance.new("Folder"))
     end
     
     --// Methods

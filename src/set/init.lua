@@ -55,8 +55,7 @@ return function<loadedValue, serializedValue>(
     
     function self:wrapHandler(container)
         
-        if container then container.Parent = self.rootContainer end
-        return handler(self, container or Instance.new("Folder", self.rootContainer))
+        return handler(self, container or Instance.new("Folder"))
     end
     
     --// End
