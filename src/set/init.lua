@@ -1,5 +1,6 @@
 --// Packages
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local arrayLoader = require(ReplicatedStorage.Packages.DataLoader.array)
 local baseLoader = require(ReplicatedStorage.Packages.DataLoader.base)
 type DataLoader<loaded, serialized> = baseLoader.DataLoader<loaded, serialized>
 
@@ -14,7 +15,7 @@ return function<loadedValue, serializedValue>(
     minLength: number?, maxLength: number?
 ): DataLoader<loadedSet<loadedValue>, serializedSet<serializedValue>>
     
-    local self = baseLoader({})
+    local self = arrayLoader()
     self.kind = "set"
     
     self.value = valueLoader
@@ -22,13 +23,10 @@ return function<loadedValue, serializedValue>(
     self.max = maxLength
     
     --// Override Methods
-    function self:getDefaultData()
-        
-        return table.clone(self.defaultData)
-    end
-    
+    local super = self.deserialize
     function self:deserialize(data: serializedSet<serializedValue>): loadedSet<loadedValue>
         
+        data = super(self, data)
         local set = {}
         
         for value in data do
@@ -41,6 +39,8 @@ return function<loadedValue, serializedValue>(
         
         return set
     end
+    
+    local super = self.serialize
     function self:serialize(set: loadedSet<loadedValue>): serializedSet<serializedValue>
         
         local data = {}
@@ -50,7 +50,7 @@ return function<loadedValue, serializedValue>(
             table.insert(data, value)
         end
         
-        return data
+        return super(self, data)
     end
     
     function self:wrapHandler(container)
