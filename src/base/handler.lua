@@ -3,7 +3,7 @@ export type DataHandler<loaded, serialized> = {
     load:   (DataHandler<loaded, serialized>, data: serialized) -> loaded,
     save:   (DataHandler<loaded, serialized>) -> serialized,
     
-    set:    (DataHandler<loaded, serialized>, value: loaded) -> (),
+    set:    (DataHandler<loaded, serialized>, value: loaded, parent: Instance?, name: string?) -> (),
     changed:(DataHandler<loaded, serialized>, value: loaded) -> (),
 }
 
