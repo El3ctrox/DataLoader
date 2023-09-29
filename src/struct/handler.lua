@@ -30,7 +30,7 @@ return function<loaded, serialized>(loader: DataLoader<loaded, serialized>, cont
         
         for index, subLoader in loaders do
             
-            local subHandler = subLoader:handle()
+            local subHandler = subLoader:wrapHandler()
             local value = newValues[index]
             
             subHandler:set(value, container, index)

@@ -14,9 +14,9 @@ return function<loadedElement, serializedElement>(
     elementLoader: DataLoader<loadedElement, serializedElement>?,
     minLength: number?, maxLength: number?
 )
-    elementLoader = elementLoader or baseLoader.new()
+    elementLoader = elementLoader or baseLoader()
     
-    local self = baseLoader.new({}) :: DataLoader<array<loadedElement>, serializedArray<serializedElement>>
+    local self = baseLoader({}) :: DataLoader<array<loadedElement>, serializedArray<serializedElement>>
     self.kind = "array"
     
     type sorter = (loadedElement, loadedElement) -> boolean
