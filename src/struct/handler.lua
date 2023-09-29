@@ -10,7 +10,13 @@ return function<loaded, serialized>(loader: DataLoader<loaded, serialized>, cont
     
     local self = wrapper(container)
     local loaders = loader.loaders
+    local handlers = {}
     local values = {}
+    
+    for index, subLoader in loaders do
+        
+        handlers[index] = subLoader:wrapHandler()
+    end
     
     --// Methods
     function self:load(serialized)
@@ -23,6 +29,14 @@ return function<loaded, serialized>(loader: DataLoader<loaded, serialized>, cont
         return loader:serialize(values)
     end
     
+    function self:handleLoader(index: string, subLoader: DataLoader<any, any>, handlerContainer: Instance?)
+        
+        local handler = subLoader:wrapHandler(handlerContainer)
+        handlers[index] = handler
+        
+        loader:insert(index, subLoader)
+        return handler
+    end
     function self:set(newValues: loaded, parent: Instance?, name: string?)
         
         if parent then container.Parent = parent end
@@ -30,7 +44,7 @@ return function<loaded, serialized>(loader: DataLoader<loaded, serialized>, cont
         
         for index, subLoader in loaders do
             
-            local subHandler = subLoader:wrapHandler()
+            local subHandler = handlers[index] or self:handleLoader(index, subLoader)
             local value = newValues[index]
             
             subHandler:set(value, container, index)
