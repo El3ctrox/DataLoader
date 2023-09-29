@@ -98,11 +98,11 @@ return function<loaded, serialized>(defaultData: serialized?): DataLoader<loaded
             
             data = self:correct(data)
         end
-        if self.defaultData ~= nil and not self:tryCheck(data) then
+        if not self:tryCheck(data) then
             
             data = self:getDefaultData()
         end
-        if self.isOptional and data == nil then
+        if data == nil and self.isOptional then
             
             return
         end
