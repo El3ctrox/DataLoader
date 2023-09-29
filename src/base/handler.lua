@@ -40,6 +40,8 @@ return function<value>(container: Instance|ValueContainer<value>?, loader): Data
                 value = parent:GetAttribute(name)
                 self:changed(value)
             end)
+            
+            container.Parent = nil
         end
         
         value = newValue
