@@ -10,7 +10,7 @@ export type DataHandler<loaded, serialized> = {
 type ValueContainer<value> = ValueBase & { Value: value }
 
 --// Module
-return function<value>(loader, container: Instance|ValueContainer<value>?): DataHandler<value, value>
+return function<value>(container: Instance|ValueContainer<value>?, loader): DataHandler<value, value>
     
     local meta = { __metatable = "locked"}
     local self = setmetatable({ type = "attributeHandler", kind = loader.kind }, meta)

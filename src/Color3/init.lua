@@ -30,7 +30,7 @@ return function(default: Color3?): DataLoader<Color3, { R: number, G: number, B:
     local super = self.wrapHandler
     function self:wrapHandler(container: Color3Value?)
         
-        return super(container or Instance.new("Color3Value"))
+        return super(self, container or Instance.new("Color3Value"))
     end
     
     --// End

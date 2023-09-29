@@ -120,7 +120,7 @@ return function<loaded, serialized>(defaultData: serialized?): DataLoader<loaded
     
     function self:wrapHandler(container: Instance?): DataHandler<loaded, serialized>
         
-        return wrapHandler(self, container)
+        return wrapHandler(container, self)
     end
     
     --// Meta

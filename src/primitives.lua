@@ -35,7 +35,7 @@ function primitives.string(default: string?, minLength: number?, maxLength: numb
     local super = self.wrapHandler
     function self:wrapHandler(container)
         
-        return super(container or Instance.new("StringValue"))
+        return super(self, container or Instance.new("StringValue"))
     end
     
     --// End
@@ -70,7 +70,7 @@ function primitives.integer(default: number?, min: number?, max: number?)
     local super = self.wrapHandler
     function self:wrapHandler(container)
         
-        return super(container or Instance.new("IntValue"))
+        return super(self, container or Instance.new("IntValue"))
     end
     
     --// End
@@ -101,7 +101,7 @@ function primitives.number(default: number?, min: number?, max: number?)
     local super = self.wrapHandler
     function self:wrapHandler(container)
         
-        return super(container or Instance.new("NumberValue"))
+        return super(self, container or Instance.new("NumberValue"))
     end
     
     --// End
@@ -125,7 +125,7 @@ function primitives.boolean(default: boolean?)
     local super = self.wrapHandler
     function self:wrapHandler(container)
         
-        return super(container or Instance.new("BoolValue"))
+        return super(self, container or Instance.new("BoolValue"))
     end
     
     --// End
