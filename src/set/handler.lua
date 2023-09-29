@@ -61,12 +61,31 @@ return function<element, serializedArray>(loader: DataLoader<{element}, serializ
         if not handler then return end
         
         handler.Parent = nil
+        values[value] = nil
+        
         return value
     end
     
     function self:length(): number
         
-        return #values
+        local total = 0
+        for _ in values do total += 1 end
+        
+        return total
+    end
+    function self:clear(): number
+        
+        local total = 0
+        
+        for value, handler in handlers do
+            
+            handler.Parent = nil
+            values[value] = nil
+            
+            total += 1
+        end
+        
+        return total
     end
     
     function self:add<value>(...: value & element): ...value
