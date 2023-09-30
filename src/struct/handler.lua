@@ -10,12 +10,14 @@ return function<loaded, serialized>(loader: DataLoader<loaded, serialized>, cont
     
     local self = wrapper(container)
     local loaders = loader.loaders
-    local handlers = {}
-    local values = {}
     
-    for index, subLoader in loaders do
+    local values = {}
+    local handlers = {} do
         
-        handlers[index] = subLoader:wrapHandler()
+        for index, subLoader in loaders do
+            
+            handlers[index] = subLoader:wrapHandler()
+        end
     end
     
     self.changed = self:_signal("changed")
