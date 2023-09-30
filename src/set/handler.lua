@@ -37,7 +37,9 @@ return function<element, serializedArray>(loader: DataLoader<{element}, serializ
         self:add(unpack(newValues))
         self:changed(newSet)
     end
-    function self:changed(newSet: { [element]: true })
+    function self:get(): { [element]: DataHandler<element, serializedElement> }
+        
+        return values
     end
     
     --// Methods

@@ -4,7 +4,7 @@ export type DataHandler<loaded, serialized> = {
     save:   (DataHandler<loaded, serialized>) -> serialized,
     
     set:    (DataHandler<loaded, serialized>, value: loaded, parent: Instance?, name: string?) -> (),
-    changed:(DataHandler<loaded, serialized>, value: loaded) -> (),
+    get:    (DataHandler<loaded, serialized>) -> loaded,
 }
 
 type ValueContainer<value> = ValueBase & { Value: value }
@@ -47,7 +47,9 @@ return function<value>(container: Instance|ValueContainer<value>?, loader): Data
         value = newValue
         self:changed(newValue)
     end
-    function self:changed(newValue)
+    function self:get(): value
+        
+        return value
     end
     
     --// Listeners

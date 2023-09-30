@@ -37,6 +37,11 @@ return function<loaded, serialized>(loader: DataLoader<loaded, serialized>, cont
         loader:insert(index, subLoader)
         return handler
     end
+    function self:getHandlers(): { [string]: DataHandler<any, any>}
+        
+        return handlers
+    end
+    
     function self:set(newValues: loaded, parent: Instance?, name: string?)
         
         if parent then container.Parent = parent end
@@ -53,7 +58,9 @@ return function<loaded, serialized>(loader: DataLoader<loaded, serialized>, cont
         values = newValues
         self:changed(newValues)
     end
-    function self:changed(newValues: loaded)
+    function self:get(): loaded
+        
+        return values
     end
     
     --// End
