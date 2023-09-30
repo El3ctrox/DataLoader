@@ -100,6 +100,15 @@ return function<loaded>(_loaders: loaded & { [string]: any })
         loaders[index] = loader
         return loader
     end
+    function self:extend(subLoaders: { [string]: any })
+        
+        for index, value in subLoaders do
+            
+            self:insert(index, value)
+        end
+        
+        return self
+    end
     
     --// Behaviour
     function meta:__newindex(index, value)
