@@ -18,6 +18,8 @@ return function<loaded, serialized>(loader: DataLoader<loaded, serialized>, cont
         handlers[index] = subLoader:wrapHandler()
     end
     
+    self.changed = self:_signal("changed")
+    
     --// Methods
     function self:load(serialized)
         
@@ -56,7 +58,7 @@ return function<loaded, serialized>(loader: DataLoader<loaded, serialized>, cont
         end
         
         values = newValues
-        self:changed(newValues)
+        self.changed:_emit(newValues)
     end
     function self:get(): loaded
         

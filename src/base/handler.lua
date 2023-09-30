@@ -5,6 +5,8 @@ export type DataHandler<loaded, serialized> = {
     
     set:    (DataHandler<loaded, serialized>, value: loaded, parent: Instance?, name: string?) -> (),
     get:    (DataHandler<loaded, serialized>) -> loaded,
+    
+    changed: RBXScriptSignal
 }
 
 type ValueContainer<value> = ValueBase & { Value: value }
@@ -15,6 +17,8 @@ return function<value>(container: Instance|ValueContainer<value>?, loader): Data
     local meta = { __metatable = "locked"}
     local self = setmetatable({ type = "attributeHandler", kind = loader.kind }, meta)
     local value: value
+    
+    self.changed = self:_signal("changed")
     
     --// Methods
     function self:load(data)
@@ -38,14 +42,14 @@ return function<value>(container: Instance|ValueContainer<value>?, loader): Data
             parent:GetAttributeChangedSignal(name):Connect(function()
                 
                 value = parent:GetAttribute(name)
-                self:changed(value)
+                self.changed:_emit(value)
             end)
             
             container.Parent = nil
         end
         
         value = newValue
-        self:changed(newValue)
+        self.changed:_emit(newValue)
     end
     function self:get(): value
         
@@ -58,7 +62,7 @@ return function<value>(container: Instance|ValueContainer<value>?, loader): Data
         container:GetPropertyChangedSignal("Value"):Connect(function()
             
             value = container.Value
-            self:changed(value)
+            self.changed:_emit(value)
         end)
         
         value = container.Value

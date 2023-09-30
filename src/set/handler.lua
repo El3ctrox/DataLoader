@@ -14,6 +14,10 @@ return function<element, serializedArray>(loader: DataLoader<{element}, serializ
     local handlers = {}
     local values = {}
     
+    self.changed = self:_signal("changed")
+    self.removed = self:_signal("removed")
+    self.added = self:_signal("added")
+    
     --// Base Methods
     function self:load(serialized)
         
@@ -35,7 +39,7 @@ return function<element, serializedArray>(loader: DataLoader<{element}, serializ
         
         self:clear()
         self:add(unpack(newValues))
-        self:changed(newSet)
+        self.changed:_emit(newValues)
     end
     function self:get(): { [element]: DataHandler<element, serializedElement> }
         
@@ -53,6 +57,7 @@ return function<element, serializedArray>(loader: DataLoader<{element}, serializ
         values[value] = true
         handler:set(value, container)
         
+        self.added:_emit(value, handler)
         return value
     end
     local function remove(value: element)
@@ -65,6 +70,7 @@ return function<element, serializedArray>(loader: DataLoader<{element}, serializ
         handler.Parent = nil
         values[value] = nil
         
+        self.removed:_emit(value, handler)
         return value
     end
     
