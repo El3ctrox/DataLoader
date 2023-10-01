@@ -1,3 +1,7 @@
+--// Packages
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local wrapper = require(ReplicatedStorage.Packages.Wrapper)
+
 --// Types
 export type DataHandler<loaded, serialized> = {
     load:   (DataHandler<loaded, serialized>, data: serialized) -> loaded,
@@ -12,10 +16,9 @@ export type DataHandler<loaded, serialized> = {
 type ValueContainer<value> = ValueBase & { Value: value }
 
 --// Module
-return function<value>(container: Instance|ValueContainer<value>?, loader): DataHandler<value, value>
+return function<value>(loader, container: Instance|ValueContainer<value>): DataHandler<value, value>
     
-    local meta = { __metatable = "locked"}
-    local self = setmetatable({ type = "attributeHandler", kind = loader.kind }, meta)
+    local self = wrapper(container)
     local value: value
     
     self.changed = self:_signal("changed")

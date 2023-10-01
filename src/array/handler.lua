@@ -7,7 +7,7 @@ type DataHandler<loaded, serialized> = baseLoader.DataHandler<loaded, serialized
 type DataLoader<loaded, serialized> = baseLoader.DataLoader<loaded, serialized>
 
 --// Module
-return function<element, serializedArray>(container: Instance, loader: DataLoader<{element}, serializedArray>): DataHandler<{element}, serializedArray>
+return function<element, serializedArray>(loader: DataLoader<{element}, serializedArray>, container: Instance): DataHandler<{element}, serializedArray>
     
     local elementLoader = loader.element :: DataLoader<element, any>
     local sorter = loader.sorter

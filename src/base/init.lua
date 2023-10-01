@@ -120,7 +120,7 @@ return function<loaded, serialized>(defaultData: serialized?): DataLoader<loaded
     
     function self:wrapHandler(container: Instance?): DataHandler<loaded, serialized>
         
-        return wrapHandler(container, self)
+        return wrapHandler(self, container or Instance.new("Folder"))
     end
     
     --// Meta
