@@ -16,7 +16,10 @@ return function<loaded, serialized>(loader: DataLoader<loaded, serialized>, cont
         
         for index, subLoader in loaders do
             
-            handlers[index] = subLoader:wrapHandler()
+            local handler = subLoader:wrapHandler()
+            
+            rawset(self, index, handler)
+            handlers[index] = handler
         end
     end
     
@@ -36,7 +39,9 @@ return function<loaded, serialized>(loader: DataLoader<loaded, serialized>, cont
     function self:handleLoader(index: string, subLoader: DataLoader<any, any>, handlerContainer: Instance?)
         
         local handler = subLoader:wrapHandler(handlerContainer)
+        
         handlers[index] = handler
+        rawset(self, index, handler)
         
         loader:insert(index, subLoader)
         return handler
