@@ -1,7 +1,8 @@
 [package]
-name = "user/dataloader"
+name = "ernisto/data-loader"
 version = "0.1.0"
 registry = "https://github.com/UpliftGames/wally-index"
 realm = "shared"
 
 [dependencies]
+Wrapper = "ernisto/wrapper@0.1.0"
