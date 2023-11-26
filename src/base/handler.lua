@@ -1,6 +1,7 @@
 --// Packages
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local wrapper = require(ReplicatedStorage.Packages.Wrapper)
+local wrapper = require(script.Parent.Parent.Parent.Wrapper)
+local Signal = require(script.Parent.Parent.Parent.Signal)
+type Signal<T...> = Signal.Signal<T...>
 
 --// Types
 export type DataHandler<loaded, serialized> = {
@@ -10,7 +11,7 @@ export type DataHandler<loaded, serialized> = {
     set:    (DataHandler<loaded, serialized>, value: loaded, parent: Instance?, name: string?) -> (),
     get:    (DataHandler<loaded, serialized>) -> loaded,
     
-    changed: RBXScriptSignal
+    changed: Signal<loaded, loaded>
 }
 
 type ValueContainer<value> = ValueBase & { Value: value }

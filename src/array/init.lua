@@ -1,6 +1,5 @@
 --// Packages
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local baseLoader = require(ReplicatedStorage.Packages.DataLoader.base)
+local baseLoader = require(script.Parent.base)
 type DataLoader<loaded, serialized> = baseLoader.DataLoader<loaded, serialized>
 
 local handler = require(script.handler)
